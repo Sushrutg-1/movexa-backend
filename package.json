@@ -1,7 +1,8 @@
 {
-  "name": "backend",
+  "name": "movexa-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js"
   },
@@ -11,5 +12,10 @@
   "devDependencies": {
     "nodemon": "^3.1.14",
     "prettier": "^3.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.3"
   }
 }
