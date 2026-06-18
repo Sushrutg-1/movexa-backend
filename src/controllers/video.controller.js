@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Video from "../models/video.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import ApiError from "../utils/ApiError";
+import ApiError from "../utils/ApiError.js";
 import uploadToCloud from "../utils/cloudinary.js";
+import Playlist from "../models/playlist.model.js";
 
 export const getAllVideos = asyncHandler(async (req, res) => {
   const {
@@ -171,10 +172,20 @@ export const deleteVideo = asyncHandler(async (req, res) => {
     throw new ApiError(404, "video not found");
   }
 
-  if (video.owner._id.toString() !== req.user._id.toString()) {
+  if (video.owner.toString() !== req.user._id.toString()) {
     throw new ApiError(403, "You are not authorized to delete this video");
   }
 
+  await Playlist.updateMany(
+    {
+      videos: video._id,
+    },
+    {
+      $pull: {
+        videos: video._id,
+      },
+    }
+  );
   await Video.findByIdAndDelete(videoId);
 
   return res

@@ -5,7 +5,6 @@ const PlatlistSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     description: {
       type: String,
@@ -24,6 +23,16 @@ const PlatlistSchema = new mongoose.Schema(
     ],
   },
   { timestamps: true }
+);
+
+PlatlistSchema.index(
+  {
+    owner: 1,
+    name: 1,
+  },
+  {
+    unique: true,
+  }
 );
 
 const Playlist = mongoose.model("Playlist", PlatlistSchema);
