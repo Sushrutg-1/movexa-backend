@@ -8,20 +8,35 @@ const LikeSchema = new mongoose.Schema(
     },
     tweet: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "Tweet",
     },
     video: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "Video",
     },
     likeBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "User",
       required: true,
     },
   },
   { timestamps: true }
 );
+
+LikeSchema.index({
+  likeBy: 1,
+  video: 1,
+});
+
+LikeSchema.index({
+  likeBy: 1,
+  comment: 1,
+});
+
+LikeSchema.index({
+  likeBy: 1,
+  tweet: 1,
+});
 
 const Like = mongoose.model("Like", LikeSchema);
 
